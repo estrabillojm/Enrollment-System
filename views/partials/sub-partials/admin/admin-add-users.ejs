@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+
+  <div class="panel">
+    <div class="panel-heading">Add Users</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-12 modComboAddUser">
+          <div id="errorBox" class="alert alert-danger modStrand" hidden>
+            <ul class="modUlMargin">
+              <li id="usernameErr" hidden>Username must contain 6 or more characters</li>
+              <li id="passwordErr" hidden>Password must contain 6 or more characters</li>
+              <li id="lastnameErr" hidden>Lastname must contain 2 or more characters</li>
+              <li id="firstnameErr" hidden>Firstname must contain 2 or more characters</li>
+              <li id="middlenameErr" hidden>Middlename must contain 2 or more characters</li>
+              <li id="passwordMatchErr" hidden>Password did not matched</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <form>
+        <p id="takenUser" hidden>Username already Taken</p>
+        <p id="availUser" hidden>Username Available</p>
+        <div class="row">
+          <div class="col-sm-4 modComboAddUser">
+            <input type="text" id="idNumber" class="form-control btn-block input-md modStrand" placeholder="Username.." value='' required>
+            <a href="#"><span class=""></span></a>
+          </div>
+
+          <div class="col-sm-4 modComboAddUser">
+              <a id="userCheck" class="btn btn-primary">Check Username</a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4  modComboAddUser">
+            <input type="text" id="lastname" class="form-control btn-block input-md modStrand" pattern="[a-z, A-Z]{1,25}" placeholder="Lastname.." value="" required>
+          </div>
+
+          <div class="col-sm-4  modComboAddUser">
+            <input type="text" class="form-control btn-block input-md modStrand" id="firstname" pattern="[a-z, A-Z]{1,25}"  placeholder="Firstname.." value="" required>
+          </div>
+
+          <div class="col-sm-4  modComboAddUser">
+            <input type="text" id="middlename" class="form-control btn-block input-md modStrand" pattern="[a-z, A-Z]{1,25}" placeholder="Middlename.." value="" required>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-sm-6 modComboAddUser">
+            <select id="typeOfUser" class="form-control btn-block input-md modStrand">
+              <option value="E-Officer">Enrollment Officer</option>
+              <option value="User">User</option>
+            </select>
+          </div>
+
+
+          <div class="col-sm-6 modComboAddUser">
+            <input type="tel" id="phoneNumber" pattern="[0]{1}[9]{1}[0-9]{2}[0-9]{3}[0-9]{4}" class="form-control modStrand" placeholder="Contact No.. (i.e 09123456789)" value="" required>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-6 hidden-xs modComboAddUser">
+            <select id="gender" class="form-control btn-block input-md modStrand">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-6 modComboAddUser myBox">
+            <div id="errorBox" class="alert alert-warning myBox">
+              <ul class="modUlMargin">
+                <li id="usernameErr">Password must contain 8 or more characters</li>
+                <li id="passwordErr">atleast 1 number, uppercase and a lowercase</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 modComboAddUser">
+            <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control btn-block input-md modStrand" placeholder="Password.." required>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-6 modComboAddUser">
+            <input type="password" id="confirmPassword" class="form-control btn-block input-md modStrand" placeholder="Confirm Password.." required>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-6 hidden-xs modComboAddUser">
+            <select id="statusTeach" class="form-control btn-block input-md modStrand">
+              <option value="teaching">Teaching</option>
+              <option value="non-teaching">Non-Teaching</option>
+            </select>
+          </div>
+        </div>
+
+
+        <hr class="hidden-xs"/>
+        <div class="row">
+          <div class="col-sm-2 col-sm-offset-8 col-xs-2 col-xs-offset-8 modComboAddUser">
+            <button id="btnSave" title="Save" class="btn btn-primary btn-block modStrand" disabled><span class="fa fa-floppy-o visible-xs"></span><span class="hidden-xs">Save</span></button>
+          </div>
+
+          <div class="col-sm-2 col-xs-2 modComboAddUser">
+            <a href="/administrator/users" title="Cancel" class="btn btn-default btn-block modStrand"><span class="fa fa-sign-out visible-xs"></span><span class="hidden-xs">Cancel</span></a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+<script>
+
+$(document).ready(function(){
+
+
+  var avail = false;
+
+  $('#idNumber').keyup(function(){
+    $('#btnSave').attr('disabled', 'disabled');
+    return false;
+  });
+
+  $(".close").click(function(){
+    $("#myAlertSuccess").alert("close");
+    $("#myAlertDanger").alert("close");
+  });
+
+  var genderTemp = "Male";
+
+  $('select#gender').change(function(){
+    genderTemp = $(this).children('option:selected').val();
+  });
+
+
+  $('#userCheck').click(function(){
+
+    var countUser = 0;
+
+    if($('#idNumber').val().length > 5 ){
+
+      $('#errorBox').attr('hidden','hidden');
+      $('#usernameErr').attr('hidden','hidden');
+
+
+      <%user.forEach(function(data){%>
+
+        var pass = '<%-data.idNumber%>';
+
+        if($('#idNumber').val().toLowerCase() == pass.toLowerCase()){
+          countUser = countUser + 1;
+        }
+
+      <%});%>
+
+      if (countUser===1){
+        $('#takenUser').removeAttr('hidden');
+        $('#availUser').attr('hidden','hidden');
+        $('#btnSave').attr('disabled','disabled');
+
+      }else{
+        $('#availUser').removeAttr('hidden');
+        $('#takenUser').attr('hidden','hidden');
+        $('#btnSave').removeAttr('disabled');
+        avail = true;
+      }
+    }else{
+      $('#errorBox').removeAttr('hidden');
+      $('#usernameErr').removeAttr('hidden');
+      return false;
+    }
+  });
+
+
+  $('form').on('submit',function(){
+      var idNumber = $('#idNumber').val();
+      var lastname = $('#lastname').val();
+      var middlename = $('#middlename').val();
+      var firstname = $('#firstname').val();
+      var userType = $('#typeOfUser').val();
+      var phoneNumber = $('#phoneNumber').val();
+      var gender = genderTemp;
+      var teachingStatus = $('#statusTeach').val();
+      var password = $('#password').val();
+      var confirmPassword = $('#confirmPassword').val();
+      var errorInput = 0;
+
+      if (idNumber.length < 6){
+        $('#errorBox').removeAttr('hidden');
+        $('#usernameErr').removeAttr('hidden');
+        return false;
+      }else{
+        $('#usernameErr').attr('hidden','hidden');
+        if(lastname.length < 2){
+          $('#errorBox').removeAttr('hidden');
+          $('#lastnameErr').removeAttr('hidden');
+          return false;
+        }else{
+          $('#lastnameErr').attr('hidden','hidden');
+          if(firstname.length < 2){
+            $('#errorBox').removeAttr('hidden');
+            $('#firstnameErr').removeAttr('hidden');
+            return false;
+          }else{
+            $('#firstnameErr').attr('hidden','hidden');
+            if(middlename.length < 2){
+              $('#errorBox').removeAttr('hidden');
+              $('#middlenameErr').removeAttr('hidden');
+              return false;
+            }else{
+              $('#middlenameErr').attr('hidden','hidden');
+              if(password.length < 6){
+                $('#errorBox').removeAttr('hidden');
+                $('#passwordErr').removeAttr('hidden');
+                return false;
+              }else{
+
+                $('#passwordErr').attr('hidden','hidden');
+                if(password != confirmPassword){
+                  $('#errorBox').removeAttr('hidden');
+                  $('#passwordMatchErr').removeAttr('hidden');
+                  return false;
+                }else{
+                  $('#errorBox').attr('hidden', 'hidden');
+                  $('#passwordMatchErr').attr('hidden', 'hidden');
+
+                  if(avail === true){
+                    $.post("/save-user-data",{
+                        idNumber: idNumber,
+                        lastname: lastname.toLowerCase(),
+                        middlename: middlename.toLowerCase(),
+                        firstname: firstname.toLowerCase(),
+                        userType: userType,
+                        phoneNumber: phoneNumber,
+                        gender: gender,
+                        password: password,
+                        confirmPassword: confirmPassword,
+                        teachingStatus: teachingStatus
+                      });
+                        alert('Data Saved');
+                        window.location.href="/administrator/users";
+                        return false;
+                  }else{
+                    alert('username already taken');
+                    return false;
+                  }
+                }
+              }
+            }
+
+          }
+
+
+
+        }
+      }
+
+
+
+  })
+});
+
+
+</script>
+
+
+
+
+
+</body>
+</html>
+
+<style>
+
+
+#takenUser{
+  color:rgb(220,70,60);
+}
+
+#availUser{
+  color:rgb(70,220,60);
+}
+
+  .modStrand{
+    border-radius:0;
+  }
+
+  .myBox{
+    margin-bottom:0;
+
+  }
+
+  .modUlMargin{
+    margin-left:15px;
+  }
+
+  .modComboAddUser{
+    padding-bottom: 15px;
+    padding-left:6px;
+    padding-right:5px;
+  }
+
+  .modComboAddUser2{
+    margin:0;
+    padding-right:0;
+  }
+</style>

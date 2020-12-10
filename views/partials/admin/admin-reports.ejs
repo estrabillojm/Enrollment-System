@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+  <div class="row modTableContainerUser" id="tableViewMod">
+    <div class="col-sm-12 table-responsive">
+    <form  method="POST" action="/pdfMake/report-students-pdf">
+    <div class="row">
+
+
+      <div class="col-sm-4 col-sm-offset-1 modMarginReports">
+        <b>Strand:</b>
+        <select class="modClassSelect form-control btn-block modStrands" id="strand">
+          <%strand.forEach(function(strand){%>
+            <option <%if(report[0].strands === strand.strands){%><%-'selected'%><%}%> value="<%-strand.strands%>"><%-strand.strands%></option>
+          <%});%>
+        </select>
+      </div>
+
+      <div class="col-sm-4 modMarginReports">
+        <b>Year & Section:</b>
+        <select class="modClassSelect form-control btn-block modStrands" id="section">
+
+          <%section.forEach(function(section){%>
+            <option <%if(report[0].section === section.section){%><%-'selected'%><%}%> value="<%-section.section%>"><%-section.section.toUpperCase()%></option>
+          <%});%>
+        </select>
+      </div>
+      <br class="hidden-xs"/>
+
+        <div class="col-sm-3 modBtnLogs modMarginReports">
+          <a id="filterBtn" title="Filter" class="btn btn-default btn-block modStrands">Filter</a>
+        </div>
+
+        <div class="col-sm-3 col-sm-offset-9 modBtnLogs modMarginReports">
+          <button id="clearLogs" title="Make PDF" class="btn btn-primary btn-block modStrands" <%if(student.length === 0){%><%-'disabled'%><%}%>>Make PDF</a>
+        </div>
+      </form>
+    </div>
+
+
+      <div class="table-responsive">
+        <table class="table " width="100%">
+        <tr class="modHeadTable">
+          <th>Student's Name</th>
+          <th>Course</th>
+          <th>Year & Section</th>
+        </tr>
+
+        <%student.forEach(function(student){%>
+          <tr class="modBgTb">
+            <td>
+              <%-student.lastname.charAt(0).toUpperCase()%><%-student.lastname.slice(1)%>, <%-student.firstname.charAt(0).toUpperCase()%><%-student.firstname.slice(1)%> <%-student.middlename.charAt(0).toUpperCase()%>.
+             </td>
+             <td><%-student.strand.toUpperCase()%></td>
+
+             <td><%-student.section.toUpperCase()%></td>
+          </tr>
+        <%});%>
+      </table>
+      </div>
+    </div>
+  </div>
+  <p class="myFloat">Total student in curent class:  <b><%-student.length%>/<%-maxStudent[0].maxStudent%></b> Students</p>
+
+</body>
+</html>
+
+<script>
+  $(document).ready(function(){
+    $('#filterBtn').click(function(){
+      var strand = $('#strand').val();
+      var section = $('#section').val();
+
+      $.post('/filter-report-update',{
+        strand: strand,
+        section: section
+      });
+      alert('Data Filtered');
+      $(location).attr('href', '/administrator/reports');
+      return false;
+    });
+  });
+</script>
+<style>
+  .modMarginReports{
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+
+  .modHeadTable , .modHeadTable th{
+    background-color:rgb(74, 140, 255);
+    border:1px solid rgb(220,220,220);
+    color:white;
+  }
+
+  .modBgTb td{
+    background-color:white;
+    border:1px solid rgb(220,220,220);
+  }
+
+  .modStrands{
+    border-radius:0;
+  }
+
+  .myFloat{
+    float:right;
+  }
+
+</style>

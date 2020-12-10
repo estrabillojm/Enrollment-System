@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+  <div class="row modTableContainerUser" id="tableViewMod">
+      <form id="downloadPdfForm"  method="POST" action="/pdfMake/schedule">
+        <div class="col-sm-3 col-sm-offset-9">
+          <input type="submit" id="downloadBtn" value="Make PDF" class="btn btn-primary btn-block modStrand" <%if(teacher.length < 1){%><%-' disabled'%><%}%>>
+        </div>
+      </form>
+    <div class="col-sm-12 table-responsive">
+      <%if(teacher.length < 1){%>
+        <p class="h3 text-center">No Schedules</p>
+      <%}%>
+      <table class="table table-bordered" width="100%" <%if(teacher.length < 1){%><%-' hidden'%><%}%>>
+        <tr class="modHeadTable">
+          <th>Day</th>
+          <th>Subject</th>
+          <th>Time In</th>
+          <th>Time Out</th>
+          <th>Strands</th>
+        </tr>
+        <%teacher.forEach(function(teacher){%>
+          <tr class="modBgColorTb">
+            <td><%-teacher.day.slice(1)%></td>
+            <td><%-teacher.subject%></td>
+            <td><%-teacher.timeIn%></td>
+            <td><%-teacher.timeOut%></td>
+            <td><%-teacher.strand%></td>
+          </tr>
+        <%});%>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<style>
+  .modMarginReports{
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+
+  .modHeadTable , .modHeadTable th{
+    background-color:rgb(74, 140, 255);
+    border:1px solid rgb(220,220,220);
+    color:white;
+  }
+
+  #tableViewMod{
+    margin-top:20px;
+  }
+
+  .modBgColorTb{
+    background-color:white;
+  }
+
+  #downloadBtn{
+    margin-bottom:5px;
+  }
+
+  .modStrand{
+    border-radius:0;
+  }
+</style>

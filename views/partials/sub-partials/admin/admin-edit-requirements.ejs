@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+  <div class="row">
+    <div class="col-sm-12">
+      <br /><b>Unsubmitted Requirements:</b>
+      <input id="textAreaRequirements" type="text" class="form-control btn-block" value="<%-requirements[0].requirements%>">
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-8 col-xs-4 col-xs-offset-4">
+      <a href="/administrator/student-requirements" class="btn btn-block btn-default modStrands">Back</a>
+    </div>
+    <div class="col-sm-2 col-xs-4">
+      <button id="btnReqUpdate" class="btn btn-block btn-primary modStrands">Update</button>
+    </div>
+  </div>
+
+</body>
+</html>
+  <script>
+    $(document).ready(function(){
+      $('#btnReqUpdate').click(function(){
+
+          $.confirm({
+              title: 'Update ?',
+              content: 'This dialog will automatically trigger \'cancel\' in 10 seconds if you don\'t respond.',
+              autoClose: 'cancel|10000',
+              boxWidth: '70%',
+              useBootstrap: false,
+              type: 'green',
+              buttons: {
+                  deleteUser: {
+                    text: 'Update',
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                      var requirements = $('#textAreaRequirements').val();
+                      alert('Data Updated');
+                      $.post('/students-requirements-update', {
+                        requirements: requirements
+                      });
+                      window.location.href="/administrator/student-requirements";
+                      return false;
+                  }},
+                  cancel: function () {
+                    $.alert("Operation Cancelled");
+                  }
+              }
+          });
+
+      });
+    });
+  </script>
+<style>
+
+  .modStrands{
+    border-radius:0;
+  }
+</style>

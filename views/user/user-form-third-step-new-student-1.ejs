@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../css/myStyle.css" type="text/css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script src="../jQuery/modjQuery.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 hidden-xs">
+          <img src="../../assets/doloresSchoolLogo.png" class="img img-responsive modImageHeadOne hidden-sm">
+          <img src="../../assets/doloresSchoolLogo.png" class="img img-responsive modImageHeadTwo visible-sm">
+      </div>
+      <div class="col-sm-6">
+        <p class="text-center modText modHeaderNew hidden-sm">
+          Republic of the Philippines<br />
+          Department of Education<br />
+          Region III<br />
+          Division of City of San Fernando Pampanga<br />
+          <b>DOLORES STAND ALONE SENIOR HIGH SCHOOL</b><br />
+          Dolores City of San Fernando Pampanga<br />
+          Tel No. (045)-402-5467<br />
+          <b>MAKA-DIYOS, MAKA-TAO, MAKAKALIKASAN, MAKABANSA</b>
+        </p>
+        <p class="text-left modText smallMod modHeaderNew visible-sm">
+          Republic of the Philippines<br />
+          Department of Education<br />
+          Region III<br />
+          Division of City of San Fernando Pampanga<br />
+          <b>DOLORES STAND ALONE SENIOR HIGH SCHOOL</b><br />
+          Dolores City of San Fernando Pampanga<br />
+          Tel No. (045)-402-5467<br />
+          <b>MAKA-DIYOS, MAKA-TAO, MAKAKALIKASAN, MAKABANSA</b>
+        </p>
+      </div>
+
+      <div class="col-sm-3 hidden-xs hidden-sm">
+        <img src="../../assets/kagawaranNgEdukasyonLogo.png" class="img img-responsive modImageHeadOne">
+      </div>
+
+    </div>
+    <hr />
+    <div class="row">
+       <div class="col-sm-12 modBg">
+         <h4 class="text-center">STUDENT'S PROFILE</h4>
+       </div>
+
+
+
+
+
+      <form autocomplete="off">
+
+        <div class="col-sm-12">
+          <p>
+            <b>Personal Information:</b>
+          </p>
+        </div>
+
+        <div class="col-sm-5 form-group">
+          <b>Year & Section:</b>
+          <select type="text" id="section" class="form-control">
+            <%section.forEach(function(section){%>
+              <option <%if(data[0].section === section.section){%><%- 'selected'%><%}%> value="<%-section.section%>"><%-section.section.toUpperCase()%></option>
+            <%});%>
+          </select>
+        </div>
+
+        <div class="col-sm-5 form-group">
+          <b>Religion:</b>
+          <input pattern="[a-z, A-Z, ñ, Ñ]{1,45}"  required type="text" class="form-control" id="tbReligion" placeholder="Enter Religion.." value="<%if(generate===true){%><%-data[0].hiddenReligion%><%}%>">
+
+        </div>
+
+
+
+          <div class="col-sm-5 form-group">
+            <b>Place of Birth:</b>
+            <input required type="text" class="form-control" id="pob" placeholder="Enter Place of Birth.." value="<%if(generate===true){%><%-data[0].hiddenPob%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>>
+          </div>
+
+
+
+
+        <div class="col-sm-10 form-group">
+          <b>Current Address:</b>
+          <input required type="text" class="form-control" id="tbCurAddress" placeholder="Enter Current Address.."value="<%if(generate===true){%><%-data[0].currentAddress%><%}else{%><%-retrieve[0].address%> <%-retrieve[0].barangay%> <%-retrieve[0].city%> <%-retrieve[0].province%><%}%>" >
+          <div class="checkbox">
+            <label><input type="checkbox" id="cbAddress" value=""><span class="modColorCb">Check if your current address is same with your permanent address</span></label>
+          </div>
+        </div>
+
+        <div class="col-sm-10 form-group">
+          <b>Permanent Address:</b>
+          <input required type="text" class="form-control" id="tbPerAddress" placeholder="Enter Permanent Address..">
+        </div>
+
+        <div class="col-sm-12">
+          <p>
+            <b>Educational Background:</b>
+          </p>
+        </div>
+
+        <div id="modParent">
+          <div class="col-xs-12 visible-xs">
+            <p>Elementary:</p>
+          </div>
+
+          <div class="col-sm-6 form-group">
+            <input required type="text" class="form-control" id="elemName" placeholder="Name of School and Location.." value="<%if(generate===true){%><%-data[0].elemName%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+          </div>
+
+          <div class="col-sm-3 form-group">
+            <select class="form-control" id="elemDegree">
+              <option value="elementary">Elementary</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3">
+            <input required type="number" class="form-control" id="elemYear" placeholder="Year Graduated (YYYY)" min="1960" max="2019" value="<%if(generate===true){%><%-data[0].elemYear%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+          </div>
+
+
+          <div class="col-xs-12 visible-xs">
+            <br /><p>High School:</p>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input required type="text" class="form-control" id="hsName" placeholder="Name of School and Location.." value="<%if(generate===true){%><%-data[0].hsName%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+          </div>
+
+          <div class="col-sm-3 form-group">
+            <select class="form-control" id="hsDegree">
+              <option value="highschool">Highschool</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3">
+            <input required type="number" class="form-control" id="hsYear"placeholder="Year Graduated (YYYY)" min="1960" max="2100" value="<%if(generate===true){%><%-data[0].hsYear%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+          </div>
+
+
+          <div class="col-xs-12 visible-xs">
+            <br /><p>Other:</p>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input type="text" class="form-control" id="othersName" placeholder="Name of School and Location.." value="<%if(generate===true){%><%-data[0].otherName%><%}%>"/>
+          </div>
+
+          <div class="col-sm-3 form-group">
+            <input pattern="[a-z, A-Z, ñ, Ñ]{1,45}" type="text" class="form-control" id="othersDegree" placeholder="Please specify.." value="<%if(generate===true){%><%-data[0].otherName%><%}%>"/>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="number" class="form-control" id="idYear" placeholder="Year Graduated (YYYY)" min="1960" max="2100" value="<%if(generate===true){%><%-data[0].otherYear%><%}%>"/>
+          </div>
+        </div>
+
+
+        <br />
+
+
+
+
+        <div class="col-sm-12">
+          <p>
+            <b>Family Background:</b>
+          </p>
+        </div>
+        <div class="col-sm-5 hidden-xs">
+          <p class="text-center modFamColor">
+            <b>Father's Information</b>
+          </p>
+        </div>
+        <div class="col-sm-5  hidden-xs">
+          <p class="text-center modFamColor">
+            <b>Mother's Information</b>
+          </p>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input pattern="[a-z, A-Z, ñ, Ñ]{1,45}" required type="text" class="form-control" id="fatherName" placeholder="Father's Name" value="<%-retrieve[0].fatherFirstname%> <%-retrieve[0].fatherMiddlename.charAt(0)%> <%-retrieve[0].fatherLastname%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input pattern="[a-z, A-Z, ñ, Ñ]{1,45}" required type="text" class="form-control" id="motherName" placeholder="Mother's Name" value="<%-retrieve[0].motherFirstname%> <%-retrieve[0].motherMiddlename.charAt(0)%> <%-retrieve[0].motherLastname%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+        </div>
+        <div class="col-sm-12 hidden-xs">
+          <p>
+            Parent's Date of Birth:
+          </p>
+        </div>
+        <div class="col-xs-12 visible-xs">
+          <p>Father's Date of Birth:</p>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input required type="date" id="fatherDob" class="form-control"  min="1960-01-01" max="2100-01-01" value="<%if(generate===true){%><%-data[0].fatherDob%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+        </div>
+        <div class="col-xs-12 visible-xs">
+          <p>Mother's Date of Birth:</p>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input required type="date" id="motherDob" class="form-control"   min="1960-01-01" max="2100-01-01" value="<%if(generate===true){%><%-data[0].motherDob%><%}%>" <%if(generate===true){%><%-'disabled'%><%}%>/>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input required type="text" id="fatherAddress" class="form-control" placeholder="Father's Address" value="<%if(generate===true){%><%-data[0].fatherAddress%><%}else{%><%-retrieve[0].address%> <%-retrieve[0].barangay%> <%-retrieve[0].city%><%}%> <%-retrieve[0].province%>" />
+        </div>
+        <div class="col-sm-5 form-group">
+          <input required type="text" id="motherAddress" class="form-control" placeholder="Mother's Address" value="<%if(generate===true){%><%-data[0].motherAddress%><%}else{%><%-retrieve[0].address%> <%-retrieve[0].barangay%> <%-retrieve[0].city%><%}%> <%-retrieve[0].province%>" />
+        </div>
+        <div class="form-group col-sm-5">
+          <input type="tel" class="form-control" id="fatherContact" max-length="11" pattern="[0]{1}[9]{1}[0-9]{2}[0-9]{3}[0-9]{4}" class="form-control" placeholder="Father's No (i.e 09123456789).. (Optional)" value="<%if(generate===true){%><%-data[0].fatherPhone%><%}%>" >
+        </div>
+        <div class="form-group col-sm-5">
+          <input type="tel" class="form-control" id="motherContact" max-length="11" pattern="[0]{1}[9]{1}[0-9]{2}[0-9]{3}[0-9]{4}" class="form-control" placeholder="Mother's No (i.e 09123456789).. (Optional)" value="<%if(generate===true){%><%-data[0].motherPhone%><%}%>" >
+        </div>
+
+        <div class="col-sm-5 form-group">
+          <input pattern="[a-z, A-Z]{1,45}" required type="text" class="form-control" id="fatherOccupation" placeholder="Father's Occupation" value="<%if(generate===true){%><%-data[0].fatherOccupation%><%}%>" />
+        </div>
+        <div class="col-sm-5 form-group">
+          <input pattern="[a-z, A-Z]{1,45}" required type="text" class="form-control" id="motherOccupation" placeholder="Mother's Occupation" value="<%if(generate===true){%><%-data[0].motherOccupation%><%}%>" />
+        </div>
+
+
+        <div class="col-sm-5 form-group">
+          <input type="text" class="form-control" id="fatherBusinessAdd" placeholder="Father's Business Address (Optional)" value="<%if(generate===true){%><%-data[0].hiddenFatherBusAddress%><%}%>"/>
+        </div>
+        <div class="col-sm-5 form-group">
+          <input type="text" class="form-control" id="motherBusinessAdd" placeholder="Mother's Business Address (Optional)" value="<%if(generate===true){%><%-data[0].hiddenMotherBusAddress%><%}%>" />
+        </div>
+
+
+
+        <div class="col-sm-12">
+          <p><b>Parents:</b></p>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="checkbox myCb">
+          <label><input type="checkbox" value="living together">Living Together</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="permanently separated">Permanently Separated</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="legally separated">Legally Separated</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="temporary separated">Temporary Separated</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="father with another partner">Father with another Partner</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="mother with another partner">Mother with another Partner</label>
+          </div>
+
+        </div>
+
+        <div class="col-sm-3">
+
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="father ofw">Father OFW</label>
+          </div>
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="mother ofw" >Mother OFW</label>
+          </div>
+
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="father deceased">Father Deceased</label>
+          </div>
+
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="mother deceased" >Mother Deceased</label>
+          </div>
+
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="single father">Single Father</label>
+          </div>
+
+          <div class="checkbox myCb">
+            <label><input type="checkbox" value="single mother" >Single Mother</label>
+          </div>
+        </div>
+
+
+        <div class="col-sm-2 col-sm-offset-6 modBtn">
+          <button class="btn btn-success btn-block modBtn" id="btnNewStudentPage1">Next</button>
+        </div>
+
+        <div class="col-sm-2 modBtn">
+          <a class="btn btn-danger btn-block modBtnUnique">Leave</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <script>
+
+  $('a.modBtnUnique').click(function(){
+    $.confirm({
+        title: 'Leave Page?',
+        content: 'Are you sure that you want to leave this form? Data are not yet saved.',
+        autoClose: 'cancel|10000',
+        boxWidth: '70%',
+        useBootstrap: false,
+        type: 'red',
+        icon: 'fa fa-warning',
+        buttons: {
+            deleteUser: {
+              text: 'Leave Page',
+              btnClass: 'btn-red',
+              action: function () {
+                  window.location.href="/";
+                  return false;
+            }
+            },
+            cancel: function () {
+              $.alert("Operation Cancelled");
+            }
+        }
+    });
+  });
+
+  $(document).ready(function(){
+    var parentStatus = '';
+
+    $('form').on('submit',function(){
+      section = $('#section').val();
+      pob = $('#pob').val();
+      tbReligion = $('#tbReligion').val();
+      tbCurAddress = $('#tbCurAddress').val();
+      tbPerAddress = $('#tbPerAddress').val();
+      elemName = $('#elemName').val();
+      elemDegree = $('#elemDegree').val();
+      elemYear = $('#elemYear').val();
+      hsName = $('#hsName').val();
+      hsDegree = $('#hsDegree').val();
+      hsYear = $('#hsYear').val();
+      othersName = $('#othersName').val();
+      othersDegree = $('#othersDegree').val();
+      idYear = $('#idYear').val();
+      fatherName = $('#fatherName').val();
+      motherName = $('#motherName').val();
+      fatherDob = $('#fatherDob').val();
+      motherDob = $('#motherDob').val();
+      fatherAddress = $('#fatherAddress').val();
+      motherAddress = $('#motherAddress').val();
+      fatherContact = $('#fatherContact').val();
+      motherContact = $('#motherContact').val();
+      fatherOccupation = $('#fatherOccupation').val();
+      motherOccupation = $('#motherOccupation').val();
+      fatherBusinessAdd = $('#fatherBusinessAdd').val();
+      motherBusinessAdd = $('#motherBusinessAdd').val();
+
+      var checkNum = 0;
+
+      $.each($(".myCb input[type='checkbox']:checked"), function(){
+
+        checkNum = checkNum + 1;
+        if(parentStatus === ''){
+          parentStatus = parentStatus + "" + $(this).val();
+        }else{
+          parentStatus = parentStatus + " / " + $(this).val();
+        }
+      });
+
+
+
+      if(checkNum === 0){
+
+        alert('Please select atleast 1 parent status');
+        return false;
+
+      }else{
+      $.post("/verifyForm4",{
+        section: section,
+        pob: pob,
+        tbReligion: tbReligion,
+        tbCurAddress: tbCurAddress,
+        tbPerAddress: tbPerAddress,
+        elemName: elemName,
+        elemDegree: elemDegree,
+        elemYear: elemYear,
+        hsName: hsName,
+        hsDegree: hsDegree,
+        hsYear: hsYear,
+        othersName: othersName,
+        othersDegree: othersDegree,
+        idYear: idYear,
+        fatherName: fatherName,
+        motherName: motherName,
+        fatherDob: fatherDob,
+        motherDob: motherDob,
+        fatherAddress: fatherAddress,
+        motherAddress: motherAddress,
+        fatherContact: fatherContact,
+        motherContact: motherContact,
+        fatherOccupation: fatherOccupation,
+        motherOccupation: motherOccupation,
+        fatherBusinessAdd: fatherBusinessAdd,
+        motherBusinessAdd: motherBusinessAdd,
+        parentStatus: parentStatus
+      });
+      alert("Click 'Ok' to Proceed to final step");
+      window.location.href = "final-step-old-student";
+      return false;
+    }
+    })
+  });
+
+
+    $(document).ready(function(){
+      var same = true;
+      $('#cbAddress').on('click', function(){
+        if (same===true){
+          $('#tbPerAddress').attr("disabled", "disabled");
+          $('#tbPerAddress').val($('#tbCurAddress').val());
+          same = false;
+        }else{
+          $('#tbPerAddress').removeAttr("disabled")
+          $('#tbPerAddress').attr("required", "required");
+          $('#tbPerAddress').val('');
+          same = true;
+        }
+      })
+    });
+  </script>
+</body>
+</html>
+<style>
+  .modText{
+    letter-spacing:1px;
+    color:rgb(60,60,60);
+  }
+  .modLine{
+    width:100%;
+    border-bottom:1px solid rgb(200,200,200);
+  }
+  .modMarginBtn{
+    margin-bottom:20px;
+  }
+  .modBg{
+    background-color:#337eb8;
+    color:white;
+    margin-bottom:20px;
+  }
+
+  .modBtn{
+    margin-bottom:5px;
+    border-radius:0;
+  }
+
+  .modBtnUnique{
+    margin-bottom:5px;
+    border-radius:0;
+  }
+
+  .modColorCb{
+    color:rgb(120,120,120);
+  }
+
+  .modFamColor{
+    color:rgb(120,120,120);
+  }
+
+  .modHeaderNew{
+    margin-top:30px;
+  }
+
+  .modImageHeadOne{
+    margin-top:15px;
+    max-width:190px;
+  }
+
+  .modImageHeadTwo{
+    margin-top:55px;
+    max-width:190px;
+  }
+
+  .smallMod{
+    margin-left:30px;
+    padding-left:30px;
+    border-left:1px solid rgb(170,170,170);
+  }
+
+
+</style>

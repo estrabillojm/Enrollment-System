@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+
+  <div class="row">
+    <div class="col-sm-7">
+      <p class="modColor text-left">List of Incomplete Requirements</p>
+    </div>
+  <div class="col-sm-5">
+    <input id="myInput" type="text" class="form-control btn-block modStrands" placeholder="Search Here..">
+  </div>
+  </div>
+
+  <table width="100%" class="table-bordered">
+    <thead>
+      <tr>
+        <th>LRN</th>
+        <th>Fullname</th>
+        <th class="tdLrn"><center>Action</center></th>
+      </tr>
+    </thead>
+
+    <%requirements.forEach(function(data){%>
+      <tbody id="myTable">
+        <tr>
+          <td class="tdLrn"><%-data.lrn%></td>
+          <td><%-data.fullname.toUpperCase()%></td>
+          <td class="tdAction">
+            <center>
+              <a class="edit text-center editBtn modPencil" title="Edit" href="/administrator/edit-student-requirements/<%-data._id%>"><span class="fa fa-pencil"></span></a>
+              &nbsp &nbsp
+              <a class="edit text-center seeBtn modPencil" data-name="<%-data.fullname%>" data-requirements="<%-data.requirements%>" title="See Details" href="#"><span class="fa fa-eye"></span></a>
+              &nbsp &nbsp
+              <a id="<%-data.lrn%>" class="clickMe deleteBtn text-center" title="Delete" href="#"><span class="fa fa-trash-o <%if(data.requirements === ''){%><%-'modGreen'%><%}else{%><%-'modRed'%><%}%>"></span></a>
+            </center>
+          </td>
+        </tr>
+
+      </tbody>
+    <%})%>
+  </table>
+</body>
+</html>
+
+<script>
+  $(document).ready(function(){
+
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+
+
+    $('a.deleteBtn').click(function(){
+      var idHolder = $(this).attr('id');
+      $.confirm({
+          title: 'Delete ?',
+          content: 'This dialog will automatically trigger \'cancel\' in 10 seconds if you don\'t respond.',
+          autoClose: 'cancel|10000',
+          boxWidth: '70%',
+          useBootstrap: false,
+          type: 'red',
+          icon: 'fa fa-warning',
+
+          buttons: {
+              deleteUser: {
+                text: 'Delete',
+                btnClass: 'btn-red',
+                action: function () {
+                    window.location.href="/administrator/delete-student-requirements/" + idHolder;
+                    return false;
+                }
+              },
+              cancel: function () {
+                $.alert("Operation Cancelled");
+              }
+          }
+      });
+    });
+
+
+
+    $('a.seeBtn').click(function(){
+      var nameHolder = $(this).attr('data-name');
+      var idHolder = $(this).attr('data-requirements');
+      $.confirm({
+          title: nameHolder,
+          content: idHolder,
+          autoClose: 'cancel|10000',
+          boxWidth: '70%',
+          useBootstrap: false,
+          type: 'green',
+
+          buttons: {
+              deleteUser: {
+                text: 'Close',
+                btnClass: 'btn-green',
+                action: function () {
+                    location.reload();
+                    return false;
+                }
+              }
+          }
+      });
+
+
+    });
+  });
+</script>
+
+<style>
+
+.row{
+  margin-top:10px;
+}
+
+.completeReq{
+  color:rgb(200,200,200);
+}
+
+button.clickMe{
+  border:none;
+  background-color:white;
+}
+
+  .modGreen{
+    color:rgb(90, 170, 70);
+    font-size:17px;
+  }
+
+  .modPencil{
+    color: rgb(88, 151, 232);
+  }
+
+  .modRed{
+    color:rgb(150, 60, 50);
+  }
+
+  .tdLrn{
+    width:120px;
+  }
+  .modColor{
+    color:black;
+    font-size:18px;
+    margin-top:10px;
+    font-weight:bold;
+  }
+
+  .tdAction{
+    width:180px;
+  }
+
+  table thead{
+  }
+
+  table thead tr th{
+    background-color:rgb(88, 151, 232);
+    height:35px;
+    padding-left:10px;
+    color:white;
+  }
+  tbody tr{
+    background-color:white;
+    height:30px;
+  }
+  tbody tr td{
+    padding-left:10px;
+  }
+
+  .modStrands{
+    border-radius: 0;
+    margin-bottom:10px;
+  }
+</style>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+
+  <title>Administrator</title>
+</head>
+<body>
+    <div class="row">
+      <div class="col-sm-5 <%if(userType==='Administrator'  || userType==='E-Officer'){%><%-'col-sm-offset-4'%><%}else{%><%-'col-sm-offset-7'%><%}%>">
+        <select id="myInput" class="form-control modBtnStrands btn-block">
+            <%strand.forEach(function(strand){%>
+              <option value="<%-strand%>"><%-strand%></option>
+            <%});%>
+
+
+        </select>
+      </div>
+      <%if(userType==='Administrator' || userType==='E-Officer'){%>
+        <div class="col-sm-3">
+          <a href="/administrator/schedules/admin-add-schedules" class="btn btn-primary modBtnStrands btn-block">Add Schedule</a>
+        </div>
+      <%}%>
+    </div>
+
+
+<div id="myTable" class="row modBodySched">
+
+
+<%strand.forEach(function(strand){%>
+
+  <div class="panel modPanel">
+    <a class='btn clickMe' href="#" data-id="<%-strand%>">VIEW</a>
+    <div class="panel-heading modPanelHeading"><span class="modMarginTop"><%-strand%><%if(userType==='Administrator' || userType==='E-Officer'){%><a id="<%-strand%>" href="#" class="modDeleteSched" title="Delete <%-strand%>"><span class="fa fa-trash"></span></a><%}%>
+      </span></div>
+    <div class="panel-body modPanelData pre-scrollable">
+      <table class="table table-bordered table-striped" width="100%">
+        <tr class="modHeadTable">
+          <th>Subject</th>
+          <th>Time In</th>
+          <th>Time Out</th>
+          <th>Days</th>
+          <%if(userType==='Administrator' || userType==='E-Officer'){%>
+            <th><center>Action</center></th>
+          <%}%>
+        </tr>
+
+          <%user.forEach(function(user){%>
+            <%if(user.strand == strand){%>
+            <tr class="modHeadTable">
+              <td><%-user.subject%></td>
+              <td><%-user.timeIn%></td>
+              <td><%-user.timeOut%></td>
+              <td><%-user.day.slice(1)%></td>
+              <%if(userType==='Administrator'  || userType==='E-Officer'){%>
+                <td>
+                  <center>
+                    <a href="/administrator/edit-schedules/<%-user._id%>/<%-user.subject%>/<%-user.timeIn%>/<%-user.timeOut%>/<%-user.day%>/<%-user.strand%>" class="editButton edit text-center" title="Edit"><span class="fa fa-pencil"></span></a>
+
+                    &nbsp &nbsp
+                    <a id="<%-user._id%>" strand="<%-strand%>" subject-name="<%-user.subject%>" subject-timeIn="<%-user.timeIn%>" subject-timeOut="<%-user.timeOut%>" subject-day="<%-user.day%>" class="deleteButton delete text-center" title="Delete Subject" href="#"><span class="fa fa-trash-o"></span></a>
+                  </center>
+                </td>
+              <%}%>
+            </tr>
+            <%}%>
+          <%})%>
+
+      </table>
+    </div>
+  </div>
+<%})%>
+
+</div>
+</body>
+</html>
+
+
+<script>
+
+
+
+  $(document).ready(function(){
+
+    var value = $('#myInput').val().toLowerCase();
+    $("#myTable .panel").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+
+    $("#myInput").change(function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable .panel").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+
+
+    $('a.clickMe').click(function(){
+
+      var dataHolder = $(this).attr('data-id');
+      window.location.href = '/administrator/view-schedule/'+ dataHolder;
+      return false;
+
+    });
+
+      $('.deleteButton').click(function(){
+       var subjectIdHolder = $(this).attr('id');
+       var subjectName = $(this).attr('subject-name');
+       var subjectTimeIn = $(this).attr('subject-timeIn');
+       var subjectTimeOut = $(this).attr('subject-timeOut');
+       var subjectDay = $(this).attr('subject-day');
+       var strand = $(this).attr('strand');
+         $.confirm({
+             title: 'Delete?',
+             content: 'This dialog will automatically trigger \'cancel\' in 10 seconds if you don\'t respond.',
+             autoClose: 'cancel|10000',
+             boxWidth: '70%',
+             useBootstrap: false,
+             type: 'red',
+             icon: 'fa fa-warning',
+             buttons: {
+                 deleteUser: {
+                   text: 'Delete',
+                   btnClass: 'btn-red',
+                   action: function () {
+                     window.location.href="/administrator/schedule/"+subjectIdHolder+"/"+subjectName+"/"+subjectTimeIn+"/"+subjectDay+"/"+subjectTimeOut+"/"+strand;
+                     return false;
+                   }
+                 },
+                 cancel: function () {
+                   $.alert("Operation Cancelled");
+                 }
+             }
+         });
+
+
+      });
+
+
+      $('.modPanelHeading a').click(function(){
+        var idHolder = $(this).attr('id');
+        $.confirm({
+            title: 'Delete Scedule for ' + $(this).attr('id') + '?',
+            content: 'This dialog will automatically trigger \'cancel\' in 10 seconds if you don\'t respond.',
+            autoClose: 'cancel|10000',
+            boxWidth: '70%',
+            useBootstrap: false,
+            type: 'red',
+            icon: 'fa fa-warning',
+            buttons: {
+                deleteUser: {
+                  text: 'Delete',
+                  action: function () {
+
+                    $.post('/delete-whole-sched',{
+                      delSched: idHolder
+                    });
+                    location.reload();
+                    return false;
+                  }
+                },
+                cancel: function () {
+                  $.alert("Operation Cancelled");
+                }
+            }
+        });
+      });
+  });
+</script>
+
+<style>
+
+  .clickMe{
+    border:1px solid gray;
+    border-radius:0;
+    width:130px;
+    border-bottom:none;
+    padding-top:2px;
+    padding-bottom:2px;
+    color: gray;
+  }
+
+  .modBodySched{
+    padding:0 15px;
+  }
+
+  .modPanelData{
+    min-height:100px;
+    max-height:270px;
+    padding:0;
+  }
+
+
+  .modHeadTable{
+    border-bottom:1px solid rgb(220,220,220);
+    color:rgb(74, 74, 74);
+  }
+
+  .panel{
+    margin-bottom:20px;
+  }
+
+  .modPanel .modPanelHeading{
+    border-radius:0;
+    border:none;
+    height:35px;
+    padding-top:5px;
+    padding-left:10px;
+
+  }
+
+  .modDeleteSched{
+    float:right;
+    margin-right:10px;
+    color:rgb(232, 219, 218);
+  }
+  .modBtnStrands{
+    border-radius:0;
+    margin-top:15px;
+  }
+
+  .delete{
+    color:rgb(210, 210, 210);
+    font-size:16px;
+  }
+
+  .delete:hover{
+    color:rgb(227, 150, 166);
+  }
+
+  .edit{
+    color:rgb(210, 210, 210);
+    font-size:16px;
+  }
+
+  .edit:hover{
+    color:rgb(168, 227, 166);
+  }
+</style>

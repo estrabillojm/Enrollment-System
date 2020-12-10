@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../../assets/myStyle.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <title>Administrator</title>
+</head>
+<body>
+  <form>
+    <div class="col-sm-7 modMarginTop">
+      <b>Strands Year & Section:</b>
+      <input type="text" id="subject" class="form-control btn-block" value="<%-strands%>" disabled>
+      <b>Subject:</b>
+      <input type="text" id="subject" class="form-control btn-block" value="<%-subject%>" disabled>
+      <b>Time In:</b>
+      <input type="time" id="apptIn" min="07:00" max="20:00" class="form-control btn-block" value="<%-timeIn%>">
+      <b>Time Out:</b>
+      <input type="time" id="apptOut" min="07:00" max="20:00" class="form-control btn-block" value="<%-timeOut%>">
+      <b>Day:</b>
+      <select class="form-control btn-block" id="day">
+        <option value="">Day</option>
+        <option <%if(days === '1monday'){%><%-'selected' %><%}%> value="1monday">Monday</option>
+        <option <%if(days === '2tuesday'){%><%-'selected' %><%}%> value="2tuesday">Tuesday</option>
+        <option <%if(days === '3wednesday'){%><%-'selected' %><%}%> value="3wednesday">Wednesday</option>
+        <option <%if(days === '4thursday'){%><%-'selected' %><%}%> value="4thursday">Thursday</option>
+        <option <%if(days === '5friday'){%><%-'selected' %><%}%> value="5friday">Friday</option>
+        <option <%if(days === '6saturday'){%><%-'selected' %><%}%> value="6saturday">Saturday</option>
+      </select>
+      <div class="row">
+        <div class="col-sm-5 col-sm-offset-2">
+          <button class="btn btn-primary btn-block">Update</button>
+        </div>
+
+        <div class="col-sm-5">
+          <a href="/administrator/schedules" class="btn btn-default btn-block">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
+
+<script>
+  $('form').submit(function(){
+    var schedId = "<%-schedId%>";
+    var oldTimeIn = "<%-timeIn%>";
+    var oldTimeOut = "<%-timeOut%>";
+    var oldDays = "<%-days%>";
+    var strands = "<%-strands%>";
+    var subject = $('#subject').val();
+    var timeIn = $('#apptIn').val();
+    var timeOut = $('#apptOut').val();
+    var days =  $('#day').val();
+
+    $.post('/update-schedule', {
+
+      schedId: schedId,
+      oldTimeIn: oldTimeIn,
+      oldTimeOut: oldTimeOut,
+      oldDays: oldDays,
+      strands: strands,
+      subject: subject,
+      timeIn: timeIn,
+      timeOut: timeOut,
+      days: days
+    });
+
+    alert('Data Updated');
+    $(location).attr('href','/administrator/schedules');
+    return false;
+  });
+</script>
+<style>
+  .btn-block{
+    margin-bottom:15px;
+  }
+
+  .modMarginTop{
+    margin-top:15px;
+  }
+</style>
